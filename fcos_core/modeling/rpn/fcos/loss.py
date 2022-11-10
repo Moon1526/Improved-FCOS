@@ -247,8 +247,8 @@ class FCOSLossComputation(object):
         u = inter_diag / outer_diag
         dious = ((ious - u)+1)/2
 
-        return torch.sqrt(centerness)
-        # return 0.25*torch.sqrt(centerness)+0.75*dious
+        
+        return 0.25*torch.sqrt(centerness)+0.75*dious
 
 
     def __call__(self, locations, box_cls, box_regression, centerness, targets):
