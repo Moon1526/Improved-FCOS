@@ -1,0 +1,41 @@
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNN"
+  # WEIGHT: "https://cloudstor.aarnet.edu.au/plus/s/xtixKaxLWmbcyf7/download#mobilenet_v2-ecbe2b5.pth"
+  WEIGHT: "/home/su/cy/FCOS-master/pretrain/efficientdet-d3.pth"
+  RPN_ONLY: True
+  FCOS_ON: True
+  BACKBONE:
+    CONV_BODY: "EFFN-BIFPN"
+    FREEZE_CONV_BODY_AT: 0
+  RESNETS:
+    BACKBONE_OUT_CHANNELS: 256
+  RETINANET:
+    USE_C5: False # FCOS uses P5 instead of C5
+DATASETS:
+  TRAIN: ("cityscapes_fine_instanceonly_seg_train_cocostyle",)
+  TEST: ("cityscapes_fine_instanceonly_seg_val_cocostyle",)
+INPUT:
+  MIN_SIZE_TRAIN: (640,)
+  MAX_SIZE_TRAIN: 1280
+  MIN_SIZE_TEST: 640
+  MAX_SIZE_TEST: 1280
+DATALOADER:
+  SIZE_DIVISIBILITY: 32
+SOLVER:
+  BASE_LR: 0.00125
+  WEIGHT_DECAY: 0.0001
+  STEPS: (14000,)
+  # MAX_ITER: 192000
+  # IMS_PER_BATCH: 2
+  MAX_ITER: 35700
+  IMS_PER_BATCH: 2
+  WARMUP_METHOD: "constant"
+TEST:
+  BBOX_AUG:
+    ENABLED: False
+    H_FLIP: True
+    SCALES: (400, 500, 600, 700, 900, 1000, 1100, 1200)
+    MAX_SIZE: 2000
+    SCALE_H_FLIP: True
+# OUTPUT_DIR: 'experiments/rethink_FPN_multilevel_add_FPNfused'
+OUTPUT_DIR: 'lin_experiments/b3'
